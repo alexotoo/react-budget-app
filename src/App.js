@@ -5,12 +5,19 @@ import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
 const intialExp = [
-  { id: uuidv4(), created: moment().format("lll"), amount: 400.0, des: "rent" },
+  {
+    id: uuidv4(),
+    created: moment().format("lll"),
+    amount: 400.0,
+    des: "rent",
+    type: "expense",
+  },
   {
     id: uuidv4(),
     created: moment().format("lll"),
     amount: 800.98,
     des: "books",
+    type: "expense",
   },
 ];
 
@@ -20,14 +27,18 @@ const intialInc = [
     created: moment().format("lll"),
     amount: 1200,
     des: "contract",
+    type: "income",
   },
   {
     id: uuidv4(),
     created: moment().format("lll"),
     amount: 3100,
     des: "sales project",
+    type: "income",
   },
 ];
+const initalTotalBudgetItems = [...intialInc, ...intialExp];
+console.log(initalTotalBudgetItems);
 
 function App() {
   const [type, setType] = useState("");
@@ -37,7 +48,11 @@ function App() {
   const [totalExpense, setTotalExpense] = useState(intialExp);
   const [totalIncome, setTotalIncome] = useState(intialInc);
 
-  const [totalBudgetItems, setTotalBudgetItems] = useState(0);
+  const [totalBudgetItems, setTotalBudgetItems] = useState(
+    initalTotalBudgetItems
+  );
+  //check data
+  console.log(totalBudgetItems);
 
   const totalExpAmount = totalExpense.reduce((acc, curr) => {
     return parseFloat((acc += curr.amount));
@@ -45,8 +60,6 @@ function App() {
   const totalIncAmount = totalIncome.reduce((acc, curr) => {
     return parseFloat((acc += curr.amount));
   }, 0);
-
-  //console.log(totalIncome);
 
   const handleType = (e) => {
     setType(e.target.value);
@@ -62,6 +75,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (type !== "type" && description !== "" && amount > 0) {
       if (type === "income") {
         const newIncome = {
@@ -69,19 +83,31 @@ function App() {
           created: moment().format("lll"),
           amount: parseFloat(amount),
           des: description,
+          type,
         };
         setTotalIncome([...totalIncome, newIncome]);
-      } else {
+        setTotalBudgetItems([...totalBudgetItems, newIncome]);
+        setAmount("");
+        setDescription("");
+      } else if (type === "expense") {
         const newExpense = {
           id: uuidv4(),
           created: moment().format("lll"),
           amount: parseFloat(amount),
           des: description,
+          type,
         };
         setTotalExpense([...totalExpense, newExpense]);
+        setTotalBudgetItems([...totalBudgetItems, newExpense]);
+        setAmount("");
+        setDescription("");
+      } else if (type === "type") {
+        setAmount(amount);
+        setDescription(description);
+      } else {
+        alert("select item type");
       }
     } else {
-      //invalide call
     }
   };
 
@@ -115,7 +141,7 @@ function App() {
           handleDescription={handleDescription}
           handleSubmit={handleSubmit}
         />
-        <BudgetList />
+        <BudgetList totalBudgetItems={totalBudgetItems} />
       </div>
     </div>
   );

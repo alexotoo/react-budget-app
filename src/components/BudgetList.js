@@ -1,11 +1,18 @@
 import React from "react";
 import BudgetItem from "./BudgetItem";
 
-function BudgetList() {
+function BudgetList({ totalBudgetItems }) {
   return (
     <div className="c-overflow-scrol">
       <ul className="list-group ">
-        <BudgetItem />
+        {totalBudgetItems.map((totalBudgetItem) => {
+          return (
+            <BudgetItem
+              key={totalBudgetItem.id}
+              totalBudgetItem={totalBudgetItem}
+            />
+          );
+        })}
       </ul>
     </div>
   );

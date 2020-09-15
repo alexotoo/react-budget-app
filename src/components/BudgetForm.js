@@ -18,7 +18,7 @@ function BudgetForm({
           className="form-control form-control-lg mb-3 "
         >
           <option defaultValue value="type">
-            Type
+            type
           </option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
