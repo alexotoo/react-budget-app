@@ -8,6 +8,7 @@ function BudgetForm({
   handleType,
   handleDescription,
   handleSubmit,
+  handleCancel,
 }) {
   return (
     <div className="py-3">
@@ -24,7 +25,6 @@ function BudgetForm({
           <option value="expense">Expense</option>
         </select>
         <input
-          type="text"
           className="form-control form-control-lg mb-3"
           onChange={handleAmount}
           value={amount}
@@ -34,7 +34,6 @@ function BudgetForm({
           placeholder="Amount"
         />
         <input
-          type="text"
           className="form-control form-control-lg"
           onChange={handleDescription}
           value={description}
@@ -47,7 +46,11 @@ function BudgetForm({
           <button type="submit" className="btn btn-success c-btn mb-2">
             Add
           </button>
-          <button type="submit" className="btn btn-danger c-btn  mb-2">
+          <button
+            type=""
+            className="btn btn-danger c-btn  mb-2"
+            onClick={handleCancel}
+          >
             Cancel
           </button>
         </div>

@@ -10814,6 +10814,58 @@ body {
   font-family: "Roboto", sans-serif !important;
 }
 
+.alert {
+  position: relative;
+  text-transform: capitalize;
+  margin-bottom: -5px;
+  margin-top: 5px;
+  z-index: 1;
+  -webkit-animation: moveUp 300ms linear forwards;
+          animation: moveUp 300ms linear forwards;
+}
+
+@-webkit-keyframes moveUp {
+  0% {
+    opacity: 0;
+    margin-bottom: -55px;
+    -webkit-transform: translate(0px, 25px);
+            transform: translate(0px, 25px);
+  }
+  100% {
+    opacity: 1;
+    margin-bottom: -65px;
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    opacity: 0;
+    margin-bottom: -55px;
+    -webkit-transform: translate(0px, 25px);
+            transform: translate(0px, 25px);
+  }
+  100% {
+    opacity: 1;
+    margin-bottom: -65px;
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+  }
+}
+
+.c-icon {
+  font-size: 1.02rem;
+  -webkit-transition: ease 100ms;
+  transition: ease 100ms;
+  cursor: pointer;
+}
+
+.c-icon:hover {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
 .c-overflow-scrol {
   widows: 100%;
   height: 150px;

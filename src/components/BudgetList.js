@@ -1,7 +1,7 @@
 import React from "react";
 import BudgetItem from "./BudgetItem";
 
-function BudgetList({ totalBudgetItems }) {
+function BudgetList({ totalBudgetItems, handleDelete, handleEdit }) {
   return (
     <div className="c-overflow-scrol">
       <ul className="list-group ">
@@ -10,6 +10,8 @@ function BudgetList({ totalBudgetItems }) {
             <BudgetItem
               key={totalBudgetItem.id}
               totalBudgetItem={totalBudgetItem}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
             />
           );
         })}
