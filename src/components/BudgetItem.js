@@ -1,7 +1,7 @@
 import React from "react";
 
 function BudgetItem({
-  totalBudgetItem: { id, type, amount, des, created },
+  totalBudgetItem: { id, type, amount, description, created },
   handleDelete,
   handleEdit,
 }) {
@@ -11,7 +11,7 @@ function BudgetItem({
         <h6 className="pb-3">$ {amount.toLocaleString()}</h6>
       </div>
       <div className="d-flex flex-column ">
-        <h6 className="align-self-center">{des}</h6>
+        <h6 className="align-self-center">{description}</h6>
         <span className="badge text-white-50 font-weight-lighter">
           {" "}
           created: {created}
@@ -56,7 +56,7 @@ function BudgetItem({
         <h6 className="pb-3">$ {amount.toLocaleString()}</h6>
       </div>
       <div className="d-flex flex-column ">
-        <h6 className="align-self-center">{des}</h6>
+        <h6 className="align-self-center">{description}</h6>
         <span className="badge text-white-50 font-weight-lighter">
           {" "}
           created: {created}

@@ -10,14 +10,14 @@ const intialExp = [
     id: uuidv4(),
     created: moment().format("lll"),
     amount: 400.0,
-    des: "rent",
+    description: "rent",
     type: "expense",
   },
   {
     id: uuidv4(),
     created: moment().format("lll"),
-    amount: 800.98,
-    des: "books",
+    amount: 400.0,
+    description: "shopping",
     type: "expense",
   },
 ];
@@ -26,26 +26,18 @@ const intialInc = [
   {
     id: uuidv4(),
     created: moment().format("lll"),
-    amount: 1200,
-    des: "contract",
-    type: "income",
-  },
-  {
-    id: uuidv4(),
-    created: moment().format("lll"),
-    amount: 3100,
-    des: "sales project",
+    amount: 3100.0,
+    description: "salary",
     type: "income",
   },
 ];
 const initalTotalBudgetItems = [...intialInc, ...intialExp];
 
+//*********** start  ***********/
 function App() {
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [id, setId] = useState(0);
-  const [edit, setEdit] = useState(false);
 
   const [totalExpense, setTotalExpense] = useState(intialExp);
   const [totalIncome, setTotalIncome] = useState(intialInc);
@@ -54,6 +46,7 @@ function App() {
     initalTotalBudgetItems
   );
 
+  const [edit, setEdit] = useState(false);
   const [alert, setAlert] = useState({ show: false });
 
   const totalExpAmount = totalExpense.reduce((acc, curr) => {
@@ -79,9 +72,18 @@ function App() {
   };
 
   //cancel input
-  const handleCancel = () => {
-    setAmount("");
-    setDescription("");
+  const handleCancel = (e) => {
+    e.preventDefault();
+    if (type === "type" || !edit) {
+      setAmount("");
+      setDescription("");
+      handleAlert({ type: "success", text: "you cancelled" });
+    } else {
+      handleSubmit(e);
+      handleAlert({ type: "success", text: "you cancelled" });
+      setAmount("");
+      setDescription("");
+    }
   };
 
   //alert
@@ -95,52 +97,60 @@ function App() {
   //edit and update
   const handleEdit = (id, type) => {
     console.log(`item edited: ${id},${type}`);
-    setEdit(true);
+
     if (type === "income") {
       let toEditIncome = totalIncome.find((item) => item.id === id);
       setAmount(toEditIncome.amount);
-      setDescription(toEditIncome.des);
-      setId(toEditIncome.id);
+      setDescription(toEditIncome.description);
+      setType(toEditIncome.type);
+
       console.log(toEditIncome);
     } else {
       let toEditExpense = totalExpense.find((item) => item.id === id);
       setAmount(toEditExpense.amount);
-      setDescription(toEditExpense.des);
-      setId(toEditExpense.id);
+      setDescription(toEditExpense.description);
+      setType(toEditExpense.type);
+
       console.log(toEditExpense);
     }
+
+    handleDelete(id, type);
+    setEdit(true);
   };
 
   //delete and update items
   const handleDelete = (id, type) => {
-    if (type === "income") {
-      let filtedIncome = totalIncome.filter((item) => item.id !== id);
-      let filteredTotalBudget = totalBudgetItems.filter(
-        (item) => item.id !== id
-      );
-      setTotalIncome(filtedIncome);
-      setTotalBudgetItems(filteredTotalBudget);
+    if (!edit) {
+      if (type === "income") {
+        let filtedIncome = totalIncome.filter((item) => item.id !== id);
+        let filteredTotalBudget = totalBudgetItems.filter(
+          (item) => item.id !== id
+        );
+        setTotalIncome(filtedIncome);
+        setTotalBudgetItems(filteredTotalBudget);
+      } else {
+        let filtedExpense = totalExpense.filter((item) => item.id !== id);
+        let filteredTotalBudget = totalBudgetItems.filter(
+          (item) => item.id !== id
+        );
+        setTotalExpense(filtedExpense);
+        setTotalBudgetItems(filteredTotalBudget);
+      }
     } else {
-      let filtedExpense = totalExpense.filter((item) => item.id !== id);
-      let filteredTotalBudget = totalBudgetItems.filter(
-        (item) => item.id !== id
-      );
-      setTotalExpense(filtedExpense);
-      setTotalBudgetItems(filteredTotalBudget);
+      return;
     }
   };
 
   //submit and update items
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (type !== "type" && description !== "" && amount > 0) {
       if (type === "income") {
         const newIncome = {
           id: uuidv4(),
           created: moment().format("lll"),
           amount: parseFloat(amount),
-          des: description,
+          description,
           type,
         };
         setTotalIncome([...totalIncome, newIncome]);
@@ -153,7 +163,7 @@ function App() {
           id: uuidv4(),
           created: moment().format("lll"),
           amount: parseFloat(amount),
-          des: description,
+          description,
           type,
         };
         setTotalExpense([...totalExpense, newExpense]);
@@ -161,15 +171,19 @@ function App() {
         handleAlert({ type: "success", text: "expense added" });
         setAmount("");
         setDescription("");
-      } else if (type === "type") {
+      } else if (
+        type === "type" ||
+        amount !== undefined ||
+        description !== undefined
+      ) {
+        handleAlert({ type: "danger", text: "Please select item type" });
         setAmount(amount);
         setDescription(description);
-      } else {
-        handleAlert({ type: "danger", text: "Please select item type" });
       }
     } else {
       handleAlert({ type: "danger", text: "Please complete all inputs" });
     }
+    setEdit(false);
   };
 
   return (
