@@ -188,7 +188,7 @@ function App() {
 
   return (
     <>
-      <div className="container-fluid d-flex flex-column align-items-center justify-content-center  min-vh-100 c-bg-color p-5 c-app-padding">
+      <div className="container-fluid d-flex flex-column align-items-center justify-content-center  min-vh-100 c-bg-color c-app-padding">
         <div className=" w-100  p-3 c-app-bg">
           <p className="text-center text-white m-0">Your available balance</p>
 
