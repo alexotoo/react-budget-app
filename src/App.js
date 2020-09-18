@@ -190,10 +190,15 @@ function App() {
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center  min-vh-100 c-bg-color c-app-padding">
         <div className=" w-100  p-3 c-app-bg">
           <p className="text-center text-white m-0">Your available balance</p>
-
-          <h1 className="text-center text-white ">
-            $ {(totalIncAmount - totalExpAmount).toLocaleString()}
-          </h1>
+          {(totalIncAmount - totalExpAmount).toLocaleString() < 0 ? (
+            <h1 className="text-center text-danger ">
+              $ {(totalIncAmount - totalExpAmount).toLocaleString()}
+            </h1>
+          ) : (
+            <h1 className="text-center text-white ">
+              $ {(totalIncAmount - totalExpAmount).toLocaleString()}
+            </h1>
+          )}
 
           <div className="d-flex justify-content-around border border-secondary text-success py-2 rounded c-border">
             <div>
