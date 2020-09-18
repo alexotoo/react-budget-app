@@ -70,6 +70,13 @@ function App() {
   const handleAmount = (e) => {
     setAmount(e.target.value);
   };
+  //alert
+  const handleAlert = ({ type, text }) => {
+    setAlert({ show: true, type, text });
+    setTimeout(() => {
+      setAlert({ show: false });
+    }, 2000);
+  };
 
   //cancel input
   const handleCancel = (e) => {
@@ -84,14 +91,6 @@ function App() {
       setAmount("");
       setDescription("");
     }
-  };
-
-  //alert
-  const handleAlert = ({ type, text }) => {
-    setAlert({ show: true, type, text });
-    setTimeout(() => {
-      setAlert({ show: false });
-    }, 2000);
   };
 
   //edit and update

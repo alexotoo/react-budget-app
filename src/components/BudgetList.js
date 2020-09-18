@@ -4,7 +4,7 @@ import BudgetItem from "./BudgetItem";
 function BudgetList({ totalBudgetItems, handleDelete, handleEdit }) {
   return (
     <div className="c-overflow-scrol">
-      <ul className="list-group ">
+      <ul className="list-group d-flex flex-column-reverse ">
         {totalBudgetItems.map((totalBudgetItem) => {
           return (
             <BudgetItem
