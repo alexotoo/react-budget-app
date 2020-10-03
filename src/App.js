@@ -9,7 +9,7 @@ const intialExp = [
   {
     id: uuidv4(),
     created: moment().format("lll"),
-    amount: 400.0,
+    amount: 380.0,
     description: "rent",
     type: "expense",
   },
@@ -96,25 +96,28 @@ function App() {
   //edit and update
   const handleEdit = (id, type) => {
     console.log(`item edited: ${id},${type}`);
+    if (!edit) {
+      if (type === "income") {
+        let toEditIncome = totalIncome.find((item) => item.id === id);
+        setAmount(toEditIncome.amount);
+        setDescription(toEditIncome.description);
+        setType(toEditIncome.type);
 
-    if (type === "income") {
-      let toEditIncome = totalIncome.find((item) => item.id === id);
-      setAmount(toEditIncome.amount);
-      setDescription(toEditIncome.description);
-      setType(toEditIncome.type);
+        console.log(toEditIncome);
+      } else {
+        let toEditExpense = totalExpense.find((item) => item.id === id);
+        setAmount(toEditExpense.amount);
+        setDescription(toEditExpense.description);
+        setType(toEditExpense.type);
 
-      console.log(toEditIncome);
+        console.log(toEditExpense);
+      }
     } else {
-      let toEditExpense = totalExpense.find((item) => item.id === id);
-      setAmount(toEditExpense.amount);
-      setDescription(toEditExpense.description);
-      setType(toEditExpense.type);
-
-      console.log(toEditExpense);
+      handleAlert({ type: "success", text: "editing is in progress" });
     }
 
-    handleDelete(id, type);
     setEdit(true);
+    handleDelete(id, type);
   };
 
   //delete and update items
@@ -136,6 +139,7 @@ function App() {
         setTotalBudgetItems(filteredTotalBudget);
       }
     } else {
+      handleAlert({ type: "danger", text: "editing is in progress" });
       return;
     }
   };
